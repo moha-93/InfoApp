@@ -1,5 +1,6 @@
 package com.mycompany.testtask.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,78 +37,27 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return new UserViewHolder(view);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User user = userList.get(position);
-        if (user != null) {
-            holder.imageView.setAnimation(AnimationUtils.loadAnimation
-                    (context, R.anim.fade_transition_anim));
-            holder.linearLayout.setAnimation(AnimationUtils.loadAnimation
-                    (context, R.anim.fade_scale_animation));
-            holder.txtName.setText(user.getName());
-            holder.txtEmail.setText(user.getEmail());
-            holder.txtInfo.setText(user.getCompany().getCatchPhrase());
-
-            switch (user.getId()) {
-                case 1:
-                    Glide.with(context).load("https://avatars.io/twitter/1").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                case 2:
-                    Glide.with(context).load("https://avatars.io/twitter/2").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                case 3:
-                    Glide.with(context).load("https://avatars.io/twitter/3").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                case 4:
-                    Glide.with(context).load("https://avatars.io/twitter/4").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                case 5:
-                    Glide.with(context).load("https://avatars.io/twitter/5").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                case 6:
-                    Glide.with(context).load("https://avatars.io/twitter/6").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                case 7:
-                    Glide.with(context).load("https://avatars.io/twitter/7").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                case 8:
-                    Glide.with(context).load("https://avatars.io/twitter/8").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                case 9:
-                    Glide.with(context).load("https://avatars.io/twitter/9").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                case 10:
-                    Glide.with(context).load("https://avatars.io/twitter/10").placeholder(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-                default:
-                    Glide.with(context).load(R.drawable.default_128)
-                            .into(holder.imageView);
-                    break;
-            }
-
-        }
-
+        holder.imageView.setAnimation(AnimationUtils.loadAnimation
+                (context, R.anim.fade_transition_anim));
+        holder.linearLayout.setAnimation(AnimationUtils.loadAnimation
+                (context, R.anim.fade_scale_animation));
+        String userName = user.getName();
+        String userEmail = user.getEmail();
+        String userCompany = user.getCompany().getCatchPhrase();
+        int userId = user.getId();
+        holder.txtName.setText(userName);
+        holder.txtEmail.setText(userEmail);
+        holder.txtInfo.setText(userCompany);
+        Glide.with(context).load(String.format("https://avatars.io/twitter/%d", userId)).placeholder(R.drawable.default_128).into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        int a;
-        if (userList != null && !userList.isEmpty()) {
-            a = userList.size();
-        } else {
-            a = 0;
-        }
-        return a;
+        return (userList == null) ? 0 : userList.size();
     }
 
     public class UserViewHolder extends RecyclerView.ViewHolder {
